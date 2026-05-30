@@ -27,6 +27,9 @@ builder.Services.AddHttpClient<TareasExternasService>(client =>
     client.Timeout = TimeSpan.FromSeconds(15); // Límite de tiempo controlado
 });
 
+// Registrar Servicio de Análisis de Sentimiento (ML.NET) como Singleton
+builder.Services.AddSingleton<SentimentAnalysisService>();
+
 var app = builder.Build();
 
 // Auto-migrar la base de datos al arrancar la aplicación
