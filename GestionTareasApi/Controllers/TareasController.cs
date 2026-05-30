@@ -21,9 +21,48 @@ namespace GestionTareasApi.Controllers
 
         // GET: api/tareas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tarea>>> GetTareas()
+        public async Task<ActionResult<IEnumerable<Tarea>>> GetTareas(
+            [FromQuery] string? estado,
+            [FromQuery] string? prioridad,
+            [FromQuery] DateTime? fechaInicio,
+            [FromQuery] DateTime? fechaFin)
         {
-            var tareas = await _context.Tareas.ToListAsync();
+            var query = _context.Tareas.AsQueryable();
+
+            if (!string.IsNullOrEmpty(estado))
+            {
+                if (!Enum.TryParse<EstadoTarea>(estado, true, out var estadoEnum))
+                {
+                    return BadRequest(new { mensaje = "El estado proporcionado no es válido." });
+                }
+                query = query.Where(t => t.Estado == estadoEnum);
+            }
+
+            if (!string.IsNullOrEmpty(prioridad))
+            {
+                if (!Enum.TryParse<PrioridadTarea>(prioridad, true, out var prioridadEnum))
+                {
+                    return BadRequest(new { mensaje = "La prioridad proporcionada no es válida." });
+                }
+                query = query.Where(t => t.Prioridad == prioridadEnum);
+            }
+
+            if (fechaInicio.HasValue && fechaFin.HasValue && fechaInicio.Value > fechaFin.Value)
+            {
+                return BadRequest(new { mensaje = "La fecha de inicio no puede ser mayor que la fecha de fin." });
+            }
+
+            if (fechaInicio.HasValue)
+            {
+                query = query.Where(t => t.FechaVencimiento >= fechaInicio.Value);
+            }
+
+            if (fechaFin.HasValue)
+            {
+                query = query.Where(t => t.FechaVencimiento <= fechaFin.Value);
+            }
+
+            var tareas = await query.ToListAsync();
             return Ok(tareas);
         }
 
