@@ -3,7 +3,7 @@
 Este proyecto consiste en una solución API RESTful construida en ASP.NET Core para gestionar tareas internas y enriquecerlas con información externa, además de clasificar comentarios usando Machine Learning con ML.NET.
 
 ## Rama Actual
-* **feature/api-externa-todos** (Pregunta 3: Consumo de API externa)
+* **feature/mlnet-basico** (Pregunta 4: ML.NET: análisis de sentimiento o recomendación simple)
 
 ---
 
@@ -118,5 +118,46 @@ El JSON original es mapeado a un Objeto de Transferencia de Datos (DTO) propio c
 
 ---
 
-## 🧠 Modelo ML.NET (Planificado para siguientes fases)
-*La clasificación de comentarios y recomendación inteligente utilizando ML.NET se implementará en la rama correspondiente (`feature/ml-net`).*
+## 🧠 Modelo ML.NET (Clasificación de Sentimientos)
+
+Se implementó la **Opción A — Análisis de sentimiento** utilizando la librería oficial **ML.NET** (`Microsoft.ML`) de Microsoft.
+
+### Descripción del Modelo
+* **Clasificación**: Clasificación binaria (sentimiento positivo vs. negativo).
+* **Algoritmo**: Regresión Logística SDCA (`SdcaLogisticRegression`).
+* **Dataset de Entrenamiento**: Un conjunto de datos balanceado en español de 24 oraciones relacionadas con la calidad del software, feedback de tareas y usabilidad del sistema, cargadas en memoria durante el inicio del servidor web.
+* **Extracción de Características**: Se utiliza el transformador `FeaturizeText` de ML.NET para tokenizar y normalizar el texto de los comentarios convirtiéndolo en vectores numéricos legibles por el regresor logístico.
+* **Ciclo de Vida**: El servicio está registrado como un **Singleton**. Esto asegura que el entrenamiento del modelo solo se ejecute una única vez en el arranque de la aplicación web, minimizando el consumo de CPU y memoria, y permitiendo la reutilización del `PredictionEngine` de forma segura.
+
+### Endpoint Implementado (ML.NET)
+* **POST** `/api/ml/sentimiento`
+
+#### Formato de Petición (Request JSON)
+```json
+{
+  "comentario": "La tarea fue completada correctamente y el sistema funciona bien"
+}
+```
+
+#### Formato de Respuesta (Response JSON)
+```json
+{
+  "comentario": "La tarea fue completada correctamente y el sistema funciona bien",
+  "sentimiento": "Positivo"
+}
+```
+
+#### Ejemplo de Comentario Negativo
+* **Request**:
+  ```json
+  {
+    "comentario": "Es pésimo, el sistema tiene demasiados bugs en producción y se cae constantemente"
+  }
+  ```
+* **Response**:
+  ```json
+  {
+    "comentario": "Es pésimo, el sistema tiene demasiados bugs en producción y se cae constantemente",
+    "sentimiento": "Negativo"
+  }
+  ```
