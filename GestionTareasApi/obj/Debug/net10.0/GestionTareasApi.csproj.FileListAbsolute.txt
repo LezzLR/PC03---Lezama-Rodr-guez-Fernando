@@ -146,3 +146,4 @@ C:\Users\PC\OneDrive\Escritorio\PC03 - Lezama, Fernando\GestionTareasApi\obj\Deb
 C:\Users\PC\OneDrive\Escritorio\PC03 - Lezama, Fernando\GestionTareasApi\obj\Debug\net10.0\GestionTareasApi.pdb
 C:\Users\PC\OneDrive\Escritorio\PC03 - Lezama, Fernando\GestionTareasApi\obj\Debug\net10.0\GestionTareasApi.genruntimeconfig.cache
 C:\Users\PC\OneDrive\Escritorio\PC03 - Lezama, Fernando\GestionTareasApi\obj\Debug\net10.0\ref\GestionTareasApi.dll
+C:\Users\PC\OneDrive\Escritorio\PC03 - Lezama, Fernando\GestionTareasApi\obj\Debug\net10.0\GestionTareasApi.sourcelink.json

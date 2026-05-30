@@ -3,7 +3,7 @@
 Este proyecto consiste en una solución API RESTful construida en ASP.NET Core para gestionar tareas internas y enriquecerlas con información externa, además de clasificar comentarios usando Machine Learning con ML.NET.
 
 ## Rama Actual
-* **feature/api-tareas** (Pregunta 1: Creación de API RESTful y modelo de datos)
+* **feature/filtros-tareas** (Pregunta 2: Filtros y búsqueda)
 
 ---
 
@@ -47,7 +47,7 @@ Todos los endpoints tienen el prefijo `/api/tareas`. Los Enums de **Estado** (`P
 
 | Método | Endpoint | Descripción | Estado de Retorno |
 | :--- | :--- | :--- | :--- |
-| **GET** | `/api/tareas` | Obtiene la lista completa de tareas. | `200 OK` |
+| **GET** | `/api/tareas` | Obtiene la lista de tareas (admite filtros de búsqueda). | `200 OK` o `400 Bad Request` |
 | **GET** | `/api/tareas/{id}` | Obtiene el detalle de una tarea por su ID. | `200 OK` o `404 Not Found` |
 | **POST** | `/api/tareas` | Crea una nueva tarea en el sistema. | `201 Created` o `400 Bad Request` |
 | **PUT** | `/api/tareas/{id}` | Actualiza completamente una tarea existente. | `204 No Content`, `400 Bad Request` o `404 Not Found` |
@@ -69,6 +69,23 @@ Todos los endpoints tienen el prefijo `/api/tareas`. Los Enums de **Estado** (`P
   "fechaVencimiento": "2026-06-15T00:00:00"
 }
 ```
+
+### 🔍 Filtros y Búsqueda (GET /api/tareas)
+El listado de tareas admite los siguientes parámetros de consulta (Query Parameters) opcionales:
+
+1. **Filtrar por Estado**: `?estado=Pendiente` (Valores admitidos: `Pendiente`, `EnProceso`, `Completada`). Retorna `400 Bad Request` si se proporciona un estado no válido.
+2. **Filtrar por Prioridad**: `?prioridad=Alta` (Valores admitidos: `Baja`, `Media`, `Alta`). Retorna `400 Bad Request` si se proporciona una prioridad no válida.
+3. **Filtrar por Rango de Fecha de Vencimiento**: `?fechaInicio=2026-05-01&fechaFin=2026-05-31`. Filtra las tareas cuyo vencimiento se encuentre en el rango establecido. Retorna `400 Bad Request` si la fecha de inicio es posterior a la de fin.
+
+#### Ejemplos de Petición
+* **Por estado:**
+  `GET /api/tareas?estado=EnProceso`
+* **Por prioridad:**
+  `GET /api/tareas?prioridad=Alta`
+* **Por rango de fechas:**
+  `GET /api/tareas?fechaInicio=2026-06-01&fechaFin=2026-06-30`
+* **Combinado:**
+  `GET /api/tareas?estado=Pendiente&prioridad=Media&fechaInicio=2026-05-01`
 
 ---
 
