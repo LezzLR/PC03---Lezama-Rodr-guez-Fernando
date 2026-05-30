@@ -1,0 +1,25 @@
+SentimentText,Label
+"La tarea fue completada correctamente y el sistema funciona bien",1
+"Excelente trabajo de todo el equipo",1
+"Me encanta cómo funciona, es súper rápido y fácil",1
+"El proyecto se entregó a tiempo y el resultado es excelente",1
+"Todo marcha de maravilla, muy buen desempeño",1
+"Muy contento con esta nueva herramienta",1
+"La interfaz es hermosa y muy intuitiva",1
+"Espectacular software, ahorra muchísimo tiempo",1
+"Gran soporte técnico y todo funcionando perfecto",1
+"La solución cumple perfectamente con las expectativas",1
+"Me gusta mucho el diseño, es ágil y moderno",1
+"Funciona de manera excelente y fluida",1
+"Pésimo sistema, tiene demasiados fallos",0
+"No funciona la aplicación, se cierra a cada rato",0
+"Muy insatisfecho con el rendimiento, va lentísimo",0
+"Es una pérdida de tiempo, no sirve para nada",0
+"Tiene errores graves y no me deja guardar nada",0
+"Horrible experiencia, la interfaz es confusa y fea",0
+"No funciona correctamente y el soporte es malo",0
+"Muchos bugs en producción, inservible",0
+"El programa falla constantemente al crear tareas",0
+"No lo recomiendo para nada, muy mala calidad",0
+"El sistema da error en cada endpoint, es un desastre",0
+"Falta de optimización y demasiados tiempos de espera",0
