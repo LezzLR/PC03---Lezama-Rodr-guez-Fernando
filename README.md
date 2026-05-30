@@ -3,7 +3,7 @@
 Este proyecto consiste en una solución API RESTful construida en ASP.NET Core para gestionar tareas internas y enriquecerlas con información externa, además de clasificar comentarios usando Machine Learning con ML.NET.
 
 ## Rama Actual
-* **feature/filtros-tareas** (Pregunta 2: Filtros y búsqueda)
+* **feature/api-externa-todos** (Pregunta 3: Consumo de API externa)
 
 ---
 
@@ -89,8 +89,32 @@ El listado de tareas admite los siguientes parámetros de consulta (Query Parame
 
 ---
 
-## 🌐 Consumo de API Externa (Planificado para siguientes fases)
-*La integración con la API externa para enriquecer tareas se implementará en la rama correspondiente (`feature/consumo-api`).*
+## 🌐 Consumo de API Externa
+
+Se consumen las tareas directamente del servicio público JSONPlaceholder (`https://jsonplaceholder.typicode.com/todos`).
+
+### Endpoints Implementados (API Tareas Externas)
+Todos los endpoints tienen el prefijo `/api/tareas-externas`.
+
+| Método | Endpoint | Descripción | Estado de Retorno |
+| :--- | :--- | :--- | :--- |
+| **GET** | `/api/tareas-externas` | Obtiene el listado completo de tareas externas mapeadas. | `200 OK`, `502 Bad Gateway` o `503 Service Unavailable` |
+| **GET** | `/api/tareas-externas/{id}` | Obtiene el detalle de una tarea externa por su ID. | `200 OK`, `404 Not Found`, `502 Bad Gateway` o `503 Service Unavailable` |
+
+### Estructura de Respuesta (DTO)
+El JSON original es mapeado a un Objeto de Transferencia de Datos (DTO) propio con la estructura requerida:
+```json
+{
+  "externalId": 1,
+  "titulo": "delectus aut autem",
+  "completado": false
+}
+```
+
+### Control de Errores Robustos
+* **404 Not Found**: Si se busca un ID que no existe en el servicio externo (ej. ID `9999`), el sistema retorna un código `404 Not Found` controlado con un mensaje en JSON.
+* **502 Bad Gateway**: Se produce y retorna controladamente cuando hay un fallo de comunicación o red con el servidor de JSONPlaceholder.
+* **503 Service Unavailable**: Retornado en cualquier otro escenario de error imprevisto de infraestructura.
 
 ---
 
