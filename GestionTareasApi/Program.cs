@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using GestionTareasApi.Data;
 using System.Text.Json.Serialization;
+using GestionTareasApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,13 @@ builder.Services.AddOpenApi();
 // Registrar DbContext con SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Registrar HttpClient y Servicio para la API externa
+builder.Services.AddHttpClient<TareasExternasService>(client =>
+{
+    client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/");
+    client.Timeout = TimeSpan.FromSeconds(15); // Límite de tiempo controlado
+});
 
 var app = builder.Build();
 
